@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Promt Game - Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mobile-optimized styles */
+        body {
+            -webkit-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+        
+        .character-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .action-button {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        
+        .action-button:active {
+            transform: scale(0.95);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <div class="bg-gray-800 shadow-lg p-4 sticky top-0 z-50">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-blue-400">🎮 Promt Game</h1>
+                <p class="text-sm text-gray-400" id="player-name-display">Player Interface</p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 rounded-full" id="connection-indicator"></div>
+                <span class="text-xs text-gray-400" id="connection-status">Verbindung...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="container mx-auto p-4 max-w-md">
+        <div class="bg-gray-800 rounded-lg p-6 mt-8">
+            <div class="text-center mb-6">
+                <div class="text-6xl mb-4">🎭</div>
+                <h2 class="text-2xl font-bold mb-2">Willkommen!</h2>
+                <p class="text-gray-400">Erstelle deinen Charakter und tritt der Session bei</p>
+            </div>
+
+            <form id="join-session-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                    <input type="text" id="player-name" class="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Gib deinen Namen ein" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Tag</label>
+                    <input type="text" id="player-tag" class="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Dein Charakter-Tag" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Voice</label>
+                    <select id="player-voice" class="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <option value="adam">Adam</option>
+                        <option value="alice">Alice</option>
+                        <option value="brian">Brian</option>
+                        <option value="charlie">Charlie</option>
+                        <option value="dorothy">Dorothy</option>
+                        <option value="emily">Emily</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Look</label>
+                    <input type="text" id="player-look" class="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Beschreibe dein Aussehen" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Mood</label>
+                    <input type="text" id="player-mood" class="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. fröhlich, mysteriös, ernst" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Slogan</label>
+                    <input type="text" id="player-slogan" class="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Dein charakteristischer Spruch" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Background Story</label>
+                    <textarea id="player-background-story" class="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4" placeholder="Erzähle die Hintergrundgeschichte deines Charakters..." required></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg action-button">
+                    🎭 Charakter erstellen und beitreten
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="hidden">
+        <!-- Character Info -->
+        <div class="character-card m-4 rounded-lg p-4 text-center">
+            <div class="mb-2">
+                <div class="text-3xl mb-2" id="character-avatar">🎭</div>
+                <h3 class="text-lg font-bold" id="character-name">Dein Charakter</h3>
+                <p class="text-sm opacity-75" id="character-details">Details werden geladen...</p>
+            </div>
+        </div>
+
+        <!-- Game Status -->
+        <div class="m-4 bg-gray-800 rounded-lg p-4">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm text-gray-400">Session Status:</span>
+                <span class="text-sm" id="session-status">Warten...</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-400">Spieler:</span>
+                <span class="text-sm" id="player-count">0/6</span>
+            </div>
+        </div>
+
+        <!-- Game Content -->
+        <div class="m-4 space-y-4">
+            <!-- Game Master Message -->
+            <div id="gm-message" class="bg-purple-800 rounded-lg p-4 hidden">
+                <div class="flex items-start space-x-3">
+                    <div class="text-2xl">🎭</div>
+                    <div>
+                        <h4 class="font-bold text-purple-200">Game Master</h4>
+                        <p class="text-purple-100" id="gm-message-text">Nachricht wird geladen...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div id="action-buttons" class="grid grid-cols-1 gap-3">
+                <button class="action-button bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg" onclick="playerAction('explore')">
+                    🔍 Erkunden
+                </button>
+                <button class="action-button bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg" onclick="playerAction('attack')">
+                    ⚔️ Angreifen
+                </button>
+                <button class="action-button bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg" onclick="playerAction('defend')">
+                    🛡️ Verteidigen
+                </button>
+                <button class="action-button bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-4 px-6 rounded-lg" onclick="playerAction('use-item')">
+                    🎒 Gegenstand nutzen
+                </button>
+                <button class="action-button bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-lg" onclick="playerAction('cast-spell')">
+                    ✨ Zauber wirken
+                </button>
+                <button class="action-button bg-gray-600 hover:bg-gray-700 text-white font-bold py-4 px-6 rounded-lg" onclick="playerAction('talk')">
+                    💬 Sprechen
+                </button>
+            </div>
+
+            <!-- Custom Action -->
+            <div class="bg-gray-800 rounded-lg p-4">
+                <h4 class="font-bold mb-3">Eigene Aktion</h4>
+                <form id="custom-action-form" class="space-y-3">
+                    <textarea id="custom-action-text" class="w-full px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Beschreibe deine Aktion..."></textarea>
+                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-lg action-button">
+                        🎯 Aktion ausführen
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Game Log -->
+        <div class="m-4">
+            <h4 class="font-bold mb-3 text-gray-300">Spielverlauf</h4>
+            <div id="game-log" class="bg-gray-800 rounded-lg p-4 max-h-48 overflow-y-auto">
+                <p class="text-gray-500 text-sm">Das Spiel beginnt bald...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p class="text-white" id="loading-text">Lade...</p>
+        </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div id="status-messages" class="fixed bottom-4 left-4 right-4 space-y-2 z-50"></div>
+
+    <script src="js/player.js"></script>
+</body>
+</html> 

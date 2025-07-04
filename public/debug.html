@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promt Game - Debug Console</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .console-output {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto p-4 max-w-6xl">
+        <!-- Header -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800">🛠️ Debug Console</h1>
+                    <p class="text-gray-600">Promt Game Development Tools</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-sm text-gray-600">
+                        <span class="font-medium">Mode:</span>
+                        <span id="current-mode" class="text-blue-600">Loading...</span>
+                    </div>
+                    <button id="refresh-all-btn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                        🔄 Refresh All
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">🔧 Mode Control</h2>
+                <div class="space-y-3">
+                    <button id="switch-test-btn" class="w-full bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">
+                        🧪 Switch to Test Mode
+                    </button>
+                    <button id="switch-prod-btn" class="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                        🚀 Switch to Production Mode
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">🔗 Connection Tests</h2>
+                <div class="space-y-3">
+                    <button id="test-connection-btn" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                        🌐 Test n8n Connection
+                    </button>
+                    <button id="health-check-btn" class="w-full bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-600">
+                        ❤️ Health Check
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">📊 System Info</h2>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span>Node Version:</span>
+                        <span id="node-version">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Environment:</span>
+                        <span id="environment">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Base URL:</span>
+                        <span id="base-url" class="text-xs">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- URL Configuration -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">🔗 URL Configuration</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-4 py-2 text-left">Action</th>
+                            <th class="px-4 py-2 text-left">URL</th>
+                            <th class="px-4 py-2 text-left">Test</th>
+                        </tr>
+                    </thead>
+                    <tbody id="url-table">
+                        <tr>
+                            <td colspan="3" class="px-4 py-2 text-center text-gray-500">Loading URLs...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- API Testing -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">🧪 API Testing</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Test Specific URL</h3>
+                    <form id="test-url-form" class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Action</label>
+                            <select id="test-action" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="CREATE_PLAYER">Create Player</option>
+                                <option value="CREATE_SCENARIO">Create Scenario</option>
+                                <option value="PROCESS_ANSWER">Process Answer</option>
+                                <option value="GET_GM">Get GM</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Test Data (JSON)</label>
+                            <textarea id="test-data" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4" placeholder='{"test": true}'></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600">
+                            🚀 Test URL
+                        </button>
+                    </form>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Environment Variables</h3>
+                    <div id="env-vars" class="space-y-2 text-sm">
+                        <div class="bg-gray-100 p-2 rounded">Loading environment variables...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Output -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold">📟 Console Output</h2>
+                <button id="clear-console-btn" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">
+                    🗑️ Clear
+                </button>
+            </div>
+            <div id="console-output" class="console-output p-4 rounded-lg min-h-48 max-h-96 overflow-y-auto text-sm">
+                <div class="text-green-400"># Debug Console Ready</div>
+                <div class="text-green-400"># Type commands or use the interface above</div>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status-messages" class="fixed bottom-4 right-4 space-y-2 z-50"></div>
+    </div>
+
+    <script>
+        class DebugInterface {
+            constructor() {
+                this.currentMode = null;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadInitialData();
+            }
+
+            setupEventListeners() {
+                // Mode switching
+                document.getElementById('switch-test-btn').addEventListener('click', () => {
+                    this.switchMode('test');
+                });
+
+                document.getElementById('switch-prod-btn').addEventListener('click', () => {
+                    this.switchMode('production');
+                });
+
+                // Testing
+                document.getElementById('test-connection-btn').addEventListener('click', () => {
+                    this.testConnection();
+                });
+
+                document.getElementById('health-check-btn').addEventListener('click', () => {
+                    this.healthCheck();
+                });
+
+                // URL testing form
+                document.getElementById('test-url-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.testSpecificURL();
+                });
+
+                // Refresh
+                document.getElementById('refresh-all-btn').addEventListener('click', () => {
+                    this.loadInitialData();
+                });
+
+                // Clear console
+                document.getElementById('clear-console-btn').addEventListener('click', () => {
+                    this.clearConsole();
+                });
+            }
+
+            async loadInitialData() {
+                this.logToConsole('Loading initial data...', 'info');
+                
+                try {
+                    const [info, environment] = await Promise.all([
+                        this.apiCall('/api/debug/info'),
+                        this.apiCall('/api/debug/environment')
+                    ]);
+
+                    this.updateModeDisplay(info.mode);
+                    this.updateURLTable(info.urls);
+                    this.updateSystemInfo(info, environment);
+                    this.updateEnvironmentVars(environment);
+
+                    this.logToConsole('✅ Initial data loaded successfully', 'success');
+                } catch (error) {
+                    this.logToConsole(`❌ Error loading initial data: ${error.message}`, 'error');
+                }
+            }
+
+            updateModeDisplay(mode) {
+                this.currentMode = mode;
+                document.getElementById('current-mode').textContent = mode.toUpperCase();
+                document.getElementById('current-mode').className = 
+                    mode === 'production' ? 'text-green-600' : 'text-yellow-600';
+            }
+
+            updateURLTable(urls) {
+                const tbody = document.getElementById('url-table');
+                tbody.innerHTML = Object.entries(urls).map(([action, url]) => `
+                    <tr class="border-b">
+                        <td class="px-4 py-2 font-medium">${action}</td>
+                        <td class="px-4 py-2 text-xs text-gray-600 break-all">${url}</td>
+                        <td class="px-4 py-2">
+                            <button onclick="debugInterface.testURL('${action}')" 
+                                    class="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600">
+                                Test
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            updateSystemInfo(info, environment) {
+                document.getElementById('node-version').textContent = environment.NODE_ENV || '-';
+                document.getElementById('environment').textContent = environment.NODE_ENV || 'development';
+                document.getElementById('base-url').textContent = environment.BASE_URL || 'http://localhost:3000';
+            }
+
+            updateEnvironmentVars(env) {
+                const container = document.getElementById('env-vars');
+                container.innerHTML = Object.entries(env).map(([key, value]) => `
+                    <div class="bg-gray-100 p-2 rounded flex justify-between">
+                        <span class="font-medium">${key}:</span>
+                        <span class="text-sm text-gray-600">${value}</span>
+                    </div>
+                `).join('');
+            }
+
+            async switchMode(mode) {
+                this.logToConsole(`Switching to ${mode} mode...`, 'info');
+                
+                try {
+                    const result = await this.apiCall('/api/debug/mode', 'POST', { mode });
+                    this.updateModeDisplay(result.newMode);
+                    this.updateURLTable(result.urls);
+                    this.logToConsole(`✅ Successfully switched to ${mode} mode`, 'success');
+                    this.showMessage(`Mode switched to ${mode}`, 'success');
+                } catch (error) {
+                    this.logToConsole(`❌ Error switching mode: ${error.message}`, 'error');
+                    this.showMessage('Error switching mode: ' + error.message, 'error');
+                }
+            }
+
+            async testConnection() {
+                this.logToConsole('Testing n8n connection...', 'info');
+                
+                try {
+                    const result = await this.apiCall('/api/debug/test-connection', 'POST');
+                    
+                    if (result.success) {
+                        this.logToConsole(`✅ Connection test successful (${result.mode} mode)`, 'success');
+                        this.logToConsole(`Response: ${JSON.stringify(result.result, null, 2)}`, 'info');
+                    } else {
+                        this.logToConsole(`❌ Connection test failed: ${result.message}`, 'error');
+                    }
+                    
+                    this.showMessage(result.message, result.success ? 'success' : 'error');
+                } catch (error) {
+                    this.logToConsole(`❌ Connection test error: ${error.message}`, 'error');
+                    this.showMessage('Connection test failed: ' + error.message, 'error');
+                }
+            }
+
+            async healthCheck() {
+                this.logToConsole('Performing health check...', 'info');
+                
+                try {
+                    const result = await this.apiCall('/api/debug/health');
+                    this.logToConsole(`✅ Health check: ${result.status}`, 'success');
+                    this.logToConsole(`Uptime: ${Math.floor(result.uptime)} seconds`, 'info');
+                    this.logToConsole(`Memory: ${JSON.stringify(result.memory, null, 2)}`, 'info');
+                    this.showMessage('Health check successful', 'success');
+                } catch (error) {
+                    this.logToConsole(`❌ Health check failed: ${error.message}`, 'error');
+                    this.showMessage('Health check failed: ' + error.message, 'error');
+                }
+            }
+
+            async testSpecificURL() {
+                const action = document.getElementById('test-action').value;
+                const testDataStr = document.getElementById('test-data').value.trim();
+                
+                let testData = { test: true, timestamp: new Date().toISOString() };
+                if (testDataStr) {
+                    try {
+                        testData = JSON.parse(testDataStr);
+                    } catch (error) {
+                        this.logToConsole(`❌ Invalid JSON in test data: ${error.message}`, 'error');
+                        this.showMessage('Invalid JSON in test data', 'error');
+                        return;
+                    }
+                }
+
+                this.logToConsole(`Testing ${action} with data: ${JSON.stringify(testData)}`, 'info');
+                
+                try {
+                    const result = await this.apiCall('/api/debug/test-url', 'POST', {
+                        action,
+                        testData
+                    });
+
+                    this.logToConsole(`✅ URL test successful for ${action}`, 'success');
+                    this.logToConsole(`URL: ${result.url}`, 'info');
+                    this.logToConsole(`Response: ${JSON.stringify(result.result, null, 2)}`, 'info');
+                    this.showMessage(`URL test successful for ${action}`, 'success');
+                } catch (error) {
+                    this.logToConsole(`❌ URL test failed for ${action}: ${error.message}`, 'error');
+                    this.showMessage(`URL test failed for ${action}: ${error.message}`, 'error');
+                }
+            }
+
+            async testURL(action) {
+                this.logToConsole(`Quick testing ${action}...`, 'info');
+                
+                try {
+                    const result = await this.apiCall('/api/debug/test-url', 'POST', {
+                        action,
+                        testData: { test: true, timestamp: new Date().toISOString() }
+                    });
+
+                    this.logToConsole(`✅ Quick test successful for ${action}`, 'success');
+                    this.showMessage(`Quick test successful for ${action}`, 'success');
+                } catch (error) {
+                    this.logToConsole(`❌ Quick test failed for ${action}: ${error.message}`, 'error');
+                    this.showMessage(`Quick test failed for ${action}`, 'error');
+                }
+            }
+
+            logToConsole(message, type = 'info') {
+                const console = document.getElementById('console-output');
+                const timestamp = new Date().toLocaleTimeString();
+                const div = document.createElement('div');
+                
+                const colors = {
+                    info: 'text-green-400',
+                    success: 'text-green-300',
+                    error: 'text-red-400',
+                    warning: 'text-yellow-400'
+                };
+
+                div.className = colors[type] || 'text-green-400';
+                div.innerHTML = `[${timestamp}] ${message}`;
+                
+                console.appendChild(div);
+                console.scrollTop = console.scrollHeight;
+
+                // Limit console lines
+                while (console.children.length > 100) {
+                    console.removeChild(console.firstChild);
+                }
+            }
+
+            clearConsole() {
+                const console = document.getElementById('console-output');
+                console.innerHTML = `
+                    <div class="text-green-400"># Debug Console Cleared</div>
+                    <div class="text-green-400"># Ready for new commands</div>
+                `;
+            }
+
+            async apiCall(endpoint, method = 'GET', data = null) {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                };
+
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(endpoint, options);
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'API call failed');
+                }
+
+                return result;
+            }
+
+            showMessage(message, type = 'info') {
+                const messagesContainer = document.getElementById('status-messages');
+                const messageDiv = document.createElement('div');
+                
+                const bgColor = {
+                    success: 'bg-green-500',
+                    error: 'bg-red-500',
+                    info: 'bg-blue-500',
+                    warning: 'bg-yellow-500'
+                }[type] || 'bg-gray-500';
+                
+                messageDiv.className = `${bgColor} text-white px-4 py-2 rounded-lg shadow-lg max-w-sm`;
+                messageDiv.textContent = message;
+                
+                messagesContainer.appendChild(messageDiv);
+                
+                // Remove message after 5 seconds
+                setTimeout(() => {
+                    messagesContainer.removeChild(messageDiv);
+                }, 5000);
+            }
+        }
+
+        // Global instance for button callbacks
+        let debugInterface;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            debugInterface = new DebugInterface();
+        });
+    </script>
+</body>
+</html> 

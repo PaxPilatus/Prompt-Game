@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promt Game - Party Role-Playing Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="text-center">
+                <div class="text-8xl mb-6">🎮</div>
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">Promt Game</h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">
+                    Das ultimative Party-Rollenspiel mit KI-gestütztem Game Master
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/gm.html" class="bg-white text-purple-600 font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-100 transition-colors">
+                        🎭 Game Master starten
+                    </a>
+                    <a href="/player.html" class="bg-purple-600 border-2 border-white text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-purple-700 transition-colors">
+                        📱 Als Spieler beitreten
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container mx-auto px-4 py-16">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">✨ Features</h2>
+            <p class="text-lg text-gray-600">Erlebe Rollenspiel neu mit modernster Technologie</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Game Master Features -->
+            <div class="feature-card bg-white rounded-lg p-6 shadow-lg">
+                <div class="text-4xl mb-4">🎭</div>
+                <h3 class="text-xl font-bold mb-3">KI-Game Master</h3>
+                <p class="text-gray-600 mb-4">
+                    Erstelle intelligente Game Master mit unterschiedlichen Persönlichkeiten, 
+                    Stimmen und Spielstilen für einzigartige Spielerfahrungen.
+                </p>
+                <ul class="text-sm text-gray-500 space-y-1">
+                    <li>• ElevenLabs Sprachintegration</li>
+                    <li>• Anpassbare Persönlichkeiten</li>
+                    <li>• Dynamische Storylines</li>
+                </ul>
+            </div>
+
+            <!-- Session Management -->
+            <div class="feature-card bg-white rounded-lg p-6 shadow-lg">
+                <div class="text-4xl mb-4">🎲</div>
+                <h3 class="text-xl font-bold mb-3">Session Management</h3>
+                <p class="text-gray-600 mb-4">
+                    Starte Sessions mit QR-Codes, verwalte Spieler in Echtzeit 
+                    und behalte den Überblick über das gesamte Spielgeschehen.
+                </p>
+                <ul class="text-sm text-gray-500 space-y-1">
+                    <li>• QR-Code Generierung</li>
+                    <li>• Live-Spielerverwaltung</li>
+                    <li>• Session-Kontrolle</li>
+                </ul>
+            </div>
+
+            <!-- Mobile Experience -->
+            <div class="feature-card bg-white rounded-lg p-6 shadow-lg">
+                <div class="text-4xl mb-4">📱</div>
+                <h3 class="text-xl font-bold mb-3">Mobile Optimiert</h3>
+                <p class="text-gray-600 mb-4">
+                    Perfekte Smartphone-Erfahrung für Spieler mit Touch-optimiertem 
+                    Interface und schnellen Aktionstasten.
+                </p>
+                <ul class="text-sm text-gray-500 space-y-1">
+                    <li>• Touch-freundlich</li>
+                    <li>• Schnelle Aktionen</li>
+                    <li>• Responsive Design</li>
+                </ul>
+            </div>
+
+            <!-- Real-time Communication -->
+            <div class="feature-card bg-white rounded-lg p-6 shadow-lg">
+                <div class="text-4xl mb-4">⚡</div>
+                <h3 class="text-xl font-bold mb-3">Echtzeit-Kommunikation</h3>
+                <p class="text-gray-600 mb-4">
+                    WebSocket-basierte Live-Updates sorgen für nahtlose 
+                    Kommunikation zwischen Game Master und allen Spielern.
+                </p>
+                <ul class="text-sm text-gray-500 space-y-1">
+                    <li>• Instant Updates</li>
+                    <li>• Synchrone Spielerfahrung</li>
+                    <li>• Verlustfreie Verbindung</li>
+                </ul>
+            </div>
+
+            <!-- AI Integration -->
+            <div class="feature-card bg-white rounded-lg p-6 shadow-lg">
+                <div class="text-4xl mb-4">🤖</div>
+                <h3 class="text-xl font-bold mb-3">KI-Integration</h3>
+                <p class="text-gray-600 mb-4">
+                    Powered by n8n Workflows für intelligente Verarbeitung 
+                    von Spieleraktionen und dynamische Storytelling.
+                </p>
+                <ul class="text-sm text-gray-500 space-y-1">
+                    <li>• n8n Workflow Engine</li>
+                    <li>• Intelligente Responses</li>
+                    <li>• Adaptive Storylines</li>
+                </ul>
+            </div>
+
+            <!-- Character Creation -->
+            <div class="feature-card bg-white rounded-lg p-6 shadow-lg">
+                <div class="text-4xl mb-4">⚔️</div>
+                <h3 class="text-xl font-bold mb-3">Charaktererstellung</h3>
+                <p class="text-gray-600 mb-4">
+                    Erstelle einzigartige Charaktere mit personalisierten 
+                    Eigenschaften, Stimmen und Hintergrundgeschichten.
+                </p>
+                <ul class="text-sm text-gray-500 space-y-1">
+                    <li>• Diverse Hintergründe</li>
+                    <li>• Persönlichkeitstypen</li>
+                    <li>• Voice Customization</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- How it Works -->
+    <div class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">🚀 So funktioniert's</h2>
+                <p class="text-lg text-gray-600">In wenigen Schritten zum epischen Rollenspiel-Abenteuer</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="bg-purple-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-bold mb-2">Game Master Setup</h3>
+                    <p class="text-gray-600">Erstelle deinen KI-Game Master und ein spannendes Szenario</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-purple-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-bold mb-2">Session starten</h3>
+                    <p class="text-gray-600">Starte eine neue Session und erhalte einen QR-Code für Spieler</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-purple-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-bold mb-2">Spieler beitreten</h3>
+                    <p class="text-gray-600">Spieler scannen den QR-Code und erstellen ihre Charaktere</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-purple-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-lg font-bold mb-2">Spielen!</h3>
+                    <p class="text-gray-600">Taucht ein in ein interaktives Abenteuer mit KI-gestütztem Storytelling</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="container mx-auto px-4 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- For Game Masters -->
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-8">
+                <div class="text-4xl mb-4">🎯</div>
+                <h3 class="text-2xl font-bold mb-4">Für Game Master</h3>
+                <p class="mb-6 opacity-90">
+                    Leite unvergessliche Rollenspiel-Sessions mit KI-Unterstützung 
+                    und modernen Tools für die perfekte Spielerfahrung.
+                </p>
+                <div class="space-y-3">
+                    <a href="/gm.html" class="block bg-white text-purple-600 text-center font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors">
+                        🎭 Game Master Interface
+                    </a>
+                    <a href="/debug.html" class="block bg-purple-600 border-2 border-white text-center font-bold py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors">
+                        🛠️ Debug Console
+                    </a>
+                </div>
+            </div>
+
+            <!-- For Players -->
+            <div class="bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-lg p-8">
+                <div class="text-4xl mb-4">🎮</div>
+                <h3 class="text-2xl font-bold mb-4">Für Spieler</h3>
+                <p class="mb-6 opacity-90">
+                    Tauche ein in epische Abenteuer, erstelle einzigartige Charaktere 
+                    und erlebe interaktives Storytelling auf deinem Smartphone.
+                </p>
+                <div class="space-y-3">
+                    <a href="/player.html" class="block bg-white text-green-600 text-center font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors">
+                        📱 Player Interface
+                    </a>
+                    <div class="text-center text-sm opacity-75">
+                        Oder scanne den QR-Code in deiner Session
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="bg-gray-800 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">⚙️ Technologie</h2>
+                <p class="text-gray-300">Gebaut mit modernsten Technologien für optimale Performance</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-3xl mb-2">🟢</div>
+                    <h4 class="font-bold">Node.js</h4>
+                    <p class="text-sm text-gray-400">Backend Server</p>
+                </div>
+                <div>
+                    <div class="text-3xl mb-2">⚡</div>
+                    <h4 class="font-bold">WebSocket</h4>
+                    <p class="text-sm text-gray-400">Real-time Communication</p>
+                </div>
+                <div>
+                    <div class="text-3xl mb-2">🤖</div>
+                    <h4 class="font-bold">n8n</h4>
+                    <p class="text-sm text-gray-400">AI Workflow Engine</p>
+                </div>
+                <div>
+                    <div class="text-3xl mb-2">🎵</div>
+                    <h4 class="font-bold">ElevenLabs</h4>
+                    <p class="text-sm text-gray-400">Voice Generation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="text-4xl mb-4">🎮</div>
+            <h3 class="text-xl font-bold mb-2">Promt Game</h3>
+            <p class="text-gray-400 mb-4">Das Zukunft des Party-Rollenspiels</p>
+            <div class="flex justify-center space-x-6 text-sm">
+                <a href="/gm.html" class="text-gray-400 hover:text-white transition-colors">Game Master</a>
+                <a href="/player.html" class="text-gray-400 hover:text-white transition-colors">Player</a>
+                <a href="/debug.html" class="text-gray-400 hover:text-white transition-colors">Debug</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 
